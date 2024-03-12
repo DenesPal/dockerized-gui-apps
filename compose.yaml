@@ -1,0 +1,144 @@
+services:
+
+  ubuntu:
+    image: ubuntu:latest
+
+  abevjava:
+    build:
+      context: .
+      dockerfile: abevjava.Dockerfile
+      args:
+        UID: $UID
+    environment:
+      - DISPLAY
+      - X-AUTHORITY
+      - LANG=${LANG:-en_US.UTF-8}
+      - LC_ALL=${LC_ALL:-en_US.UTF-8}
+    volumes:
+      - type: bind
+        source: ${HOME}/abevjava
+        target: /home/user/abevjava
+
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+
+      - type: bind
+        source: /tmp/.X11-unix/
+        target: /tmp/.X11-unix/
+        read_only: true
+      - type: bind
+        source: $XAUTHORITY
+        target: /home/user/.Xauthority
+        read_only: true
+
+  icaclient:
+    build:
+      context: .
+      dockerfile: icaclient.Dockerfile
+      args:
+        UID: $UID
+    # command: firefox
+    # command: selfservice
+    command: sleep infinity
+    environment:
+      - DISPLAY=unix${DISPLAY}
+      - ICAROOT=/opt/Citrix/ICAClient
+      - LD_LIBRARY_PATH=/opt/Citrix/ICAClient/lib
+      - LANG=${LANG:-en_US.UTF-8}
+      - LC_ALL=${LC_ALL:-en_US.UTF-8}
+      - PATH=/opt/Citrix/ICAClient:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native
+      - X-AUTHORITY
+    ipc: host
+    volumes:
+      - type: volume
+        source: home
+        target: /home/user
+
+      - type: bind
+        source: ${HOME}/Desktop
+        target: /home/user/Desktop
+
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+
+      - type: bind
+        source: /tmp/.X11-unix/
+        target: /tmp/.X11-unix/
+        read_only: true
+      - type: bind
+        source: $XAUTHORITY
+        target: /home/user/.Xauthority
+        read_only: true
+
+      - type: bind
+        source: ${XDG_RUNTIME_DIR}/pulse/native
+        target: ${XDG_RUNTIME_DIR}/pulse/native
+
+      # - type: bind
+      #   source: /dev/shm
+      #   target: /dev/shm
+      # - type: bind
+      #   source: /var/run/dbus
+      #   target: /var/run/dbus
+
+  opera:
+    build:
+      context: .
+      dockerfile: opera.Dockerfile
+      args:
+        UID: $UID
+    environment:
+      - DISPLAY
+      - LANG=${LANG:-en_US.UTF-8}
+      - LC_ALL=${LC_ALL:-en_US.UTF-8}
+      - PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native
+      - X-AUTHORITY
+    volumes:
+      - type: bind
+        source: ${HOME}/Desktop
+        target: /home/user/Desktop
+
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+
+      - type: bind
+        source: /tmp/.X11-unix/
+        target: /tmp/.X11-unix/
+        read_only: true
+      - type: bind
+        source: $XAUTHORITY
+        target: /home/user/.Xauthority
+        read_only: true
+
+      - type: bind
+        source: ${XDG_RUNTIME_DIR}/pulse/native
+        target: ${XDG_RUNTIME_DIR}/pulse/native
+
+      - type: bind
+        source: /dev/shm
+        target: /dev/shm
+      - type: bind
+        source: /var/run/dbus
+        target: /var/run/dbus
+
+volumes:
+  home:
