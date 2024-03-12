@@ -1,5 +1,8 @@
 Dockerized some GUI apps, stolen bits of ideas form everywhere
 
+Create a `.env` file with `UID=1234` your uid (`id -u`) if you have premission
+problems with mounted folders. (do docker compose build & down & up) 
+
 # icaclient
 
  - Citrix Workspace app / desktop receiver / wfica client.
