@@ -2,11 +2,12 @@ Dockerized some GUI apps, stolen bits of ideas form everywhere
 
 # icaclient
 
- - Citrixy Desktop Receiver client.
+ - Citrix Workspace app / desktop receiver / wfica client.
  - Has a Firefox web browser installed for accessing the corporate login page.
  - Mounts a pseudonymouos volume to /home/user
  - Mounts ~/Desktoop as /home/user/Desktop
  - Has no sound and camera
+ - Rebuilds with latest Citrix Workspace app version on latest ubuntu LTS.
 
 Use `docker compose up -d --wait icaclient` to start the container, and
 `docker compose exec icaclient firefox` to start the browser every time
